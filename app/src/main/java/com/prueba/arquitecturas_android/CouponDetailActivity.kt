@@ -3,54 +3,51 @@ package com.prueba.arquitecturas_android
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.prueba.arquitecturas_android.databinding.ActivityCouponDetailBinding
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
 
 class CouponDetailActivity : AppCompatActivity(){
 
     private var couponSelected : Coupon? = null
+    private lateinit var binding: ActivityCouponDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coupon_detail)
-
+        binding=ActivityCouponDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         couponSelected = intent.getSerializableExtra("COUPON") as Coupon
+        updateView()
+        updateImage()
+        eventButton()
 
-        var tvTitleDetail: TextView = findViewById(R.id.tvTitleDetail)
-        var tvDescriptionShortDetail: TextView = findViewById(R.id.tvDescriptionShortDetail)
-        var tvCategoryDetail: TextView = findViewById(R.id.tvCategoryDetail)
-        var tvDateDetail: TextView = findViewById(R.id.tvDateDetail)
-        var tvDescriptionDetailData: TextView = findViewById(R.id.tvDescriptionDetailData)
-        var tvOffertDetailData: TextView = findViewById(R.id.tvOffertDetailData)
-        var tvWebsiteDetailData: TextView = findViewById(R.id.tvWebsiteDetailData)
-        var tvDateEndData: TextView = findViewById(R.id.tvDateEndData)
-        var imgHeaderDetail: ImageView = findViewById(R.id.imgHeaderDetail)
-        var imgCouponDetail: CircleImageView = findViewById(R.id.imgCouponDetail)
-        var btnOpenOffer: Button = findViewById(R.id.btnOpenOffer)
+    }
 
-        tvTitleDetail.text = couponSelected?.title
-        tvDescriptionShortDetail.text = couponSelected?.descriptionShort
-        tvCategoryDetail.text = couponSelected?.category
-        tvDateDetail.text = couponSelected?.endDate
-        tvDescriptionDetailData.text = couponSelected?.description
-        tvOffertDetailData.text = couponSelected?.offer
-        tvWebsiteDetailData.text = couponSelected?.website
-        tvDateEndData.text = couponSelected?.endDate
+    fun updateView(){
+        binding.tvTitleDetail.text=couponSelected?.title
+        binding.tvDescriptionShortDetail.text = couponSelected?.descriptionShort
+        binding.tvCategoryDetail.text = couponSelected?.category
+        binding.tvDateDetail.text = couponSelected?.endDate
+        binding.tvDescriptionDetailData.text = couponSelected?.description
+        binding.tvOffertDetailData.text = couponSelected?.offer
+        binding.tvWebsiteDetailData.text = couponSelected?.website
+        binding.tvDateEndData.text = couponSelected?.endDate
+    }
 
-        Picasso.get().load(couponSelected?.image_url).resize(520, 520).centerCrop().into(imgHeaderDetail)
-        Picasso.get().load(couponSelected?.image_url).resize(520, 520).centerCrop().into(imgCouponDetail)
+    fun updateImage(){
+        Picasso.get().load(couponSelected?.image_url).resize(520, 520).centerCrop().into(binding.imgHeaderDetail)
+        Picasso.get().load(couponSelected?.image_url).resize(520, 520).centerCrop().into(binding.imgCouponDetail)
+    }
 
-        btnOpenOffer.setOnClickListener {
+    fun eventButton(){
+        binding.btnOpenOffer.setOnClickListener {
             val openURL = Intent(Intent.ACTION_VIEW)
             openURL.data = Uri.parse(couponSelected?.url)
             startActivity(openURL)
         }
 
-
     }
 
 }
+
+

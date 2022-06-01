@@ -1,5 +1,6 @@
 package com.prueba.arquitecturas_android
 
+import android.util.Log
 import com.google.gson.JsonObject
 import java.io.Serializable
 import java.lang.Exception
@@ -44,16 +45,16 @@ class Coupon (couponJson: JsonObject?) : Serializable {
      */
     init {
         try {
-            id                  = couponJson!!.get(ID).asString
-            image_url           = couponJson!!.get(IMAGE_URL).asString
-            title               = couponJson!!.get(TITLE).asString
-            descriptionShort    = chunkWords(couponJson!!.get(DESCRIPTION_SHORT).asString, ' ', 5)
-            category            = chunkWords(couponJson!!.get(CATEGORY).asString, ',', 1)
-            description         = couponJson!!.get(DESCRIPTION).asString
-            offer               = couponJson!!.get(OFFER).asString
-            website             = couponJson!!.get(WEBSITE).asString
-            endDate             = getFormatDate(couponJson!!.get(END_DATE).asString)
-            url                 = couponJson!!.get(URL).asString
+            id                  = couponJson?.get(ID).toString()
+            image_url           = couponJson?.get(IMAGE_URL).toString()
+            title               = couponJson?.get(TITLE).toString()
+            descriptionShort    = chunkWords(couponJson?.get(DESCRIPTION_SHORT).toString(), ' ', 5)
+            category            = chunkWords(couponJson?.get(CATEGORY).toString(), ',', 1)
+            description         = couponJson?.get(DESCRIPTION).toString()
+            offer               = couponJson?.get(OFFER).toString()
+            website             = couponJson?.get(WEBSITE).toString()
+            endDate             = getFormatDate(couponJson?.get(END_DATE).toString())
+            url                 = couponJson?.get(URL).toString()
         }catch (e: Exception){
             e.printStackTrace()
         }
@@ -64,31 +65,44 @@ class Coupon (couponJson: JsonObject?) : Serializable {
     retorna en formato string el formato de las fechas.
      */
     private fun getFormatDate(dateCoupon:String):String {
-        val format = SimpleDateFormat("yyyy-MM-dd")
-        val dateFormat = SimpleDateFormat("dd MMMM yyyy")
-        try {
-            val parsedDateFormat = format.parse(dateCoupon)
-            val cal = Calendar.getInstance()
-            cal.time = parsedDateFormat
-            return dateFormat.format(cal.time)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            return ""
-        }
+        Log.e("getFormatDate",dateCoupon)
+//        val format = SimpleDateFormat("yyyy-MM-dd")
+//        val dateFormat = SimpleDateFormat("dd MMMM yyyy")
+//        try {
+//            val parsedDateFormat: Date = format.parse(dateCoupon.toString())
+//            val cal = Calendar.getInstance()
+//            cal.time = parsedDateFormat
+//            return dateFormat.format(cal.time)
+//        } catch (e: ParseException) {
+//            Log.e("exceptionDate",e.toString())
+//            e.printStackTrace()
+//            return dateCoupon
+//        }
+        return dateCoupon
     }
 
     /*
         Separa la lista de categorias que vienen separadas con una coma
      */
     private fun chunkWords(string: String, delimiter: Char, quantity: Int): String {
-        val words = string.split(delimiter)
-        var newString: String = ""
-
-        for (i in 0..quantity){
-            newString += words.get(i) + " "
+        if(string.isNotEmpty()){
+            val words = string.split(delimiter)
+            var newString: String = ""
+            for (i in 0..quantity){
+                if(i<words.size) {
+                    newString += words.get(i) + " "
+                }
+            }
+            Log.e("returnWords",newString)
+            return newString
         }
+        Log.e("returnWords","NA")
+        return "NA"
+    }
 
-        return newString
+    override fun toString(): String {
+        return "\nCoupon(id='$id', \n image_url='$image_url', \n title='$title', \n descriptionShort='$descriptionShort', \n category='$category', " +
+                "\n description='$description', \n offer='$offer',\n  website='$website', \n endDate='$endDate', \n url='$url')"
     }
 
 

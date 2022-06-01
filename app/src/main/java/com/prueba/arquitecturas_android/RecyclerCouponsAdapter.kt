@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.squareup.picasso.Picasso.get
 
 
 /*
@@ -30,8 +30,10 @@ class RecyclerCouponsAdapter (var coupons : ArrayList<Coupon>, var resource: Int
         }
 
         fun setDataCard(coupon: Coupon){
+            println("\n\n")
+            Log.e("setDataCard","${coupon.image_url}")
             this.coupon = coupon
-            Picasso.get().load(coupon.image_url).resize(520, 520).centerCrop().into(imgCoupon)
+            get().load(coupon.image_url).resize(520, 520).centerCrop().into(imgCoupon)
             tvTitle.setText(coupon.title)
             tvDescriptionShort.setText(coupon.descriptionShort)
             tvCategory.setText(coupon.category)
@@ -40,7 +42,6 @@ class RecyclerCouponsAdapter (var coupons : ArrayList<Coupon>, var resource: Int
         }
 
         override fun onClick(v: View?) {
-            TODO("Not yet implemented")
             Log.i("CLICK Coupon: ", coupon?.title.toString())
             val context = v?.context
             val showPhotoIntent = Intent(context, CouponDetailActivity::class.java)
@@ -51,19 +52,18 @@ class RecyclerCouponsAdapter (var coupons : ArrayList<Coupon>, var resource: Int
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardCouponHolder {
-        TODO("Not yet implemented")
-        var view: View = LayoutInflater.from(parent!!.context).inflate(resource, parent, false)
+        Log.e("RECYCLERitemCreate","tamaño")
+        val view: View = LayoutInflater.from(parent.context).inflate(resource, parent, false)
         return CardCouponHolder(view)
     }
 
     override fun onBindViewHolder(holder: CardCouponHolder, position: Int) {
-        TODO("Not yet implemented")
-        var coupon = coupons.get(position)
-        holder.setDataCard(coupon)
+        Log.e("RECYCLERonBind","tamaño  "+coupons.toString())
+        holder.setDataCard(coupons[position])
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        Log.e("RECYCLERitem","tamaño"+coupons.size)
         return coupons.size
     }
 }
