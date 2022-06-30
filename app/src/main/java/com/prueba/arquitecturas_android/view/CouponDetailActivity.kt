@@ -1,9 +1,10 @@
-package com.prueba.arquitecturas_android
+package com.prueba.arquitecturas_android.view
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.prueba.arquitecturas_android.model.Coupon
 import com.prueba.arquitecturas_android.databinding.ActivityCouponDetailBinding
 import com.squareup.picasso.Picasso
 

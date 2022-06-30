@@ -1,4 +1,4 @@
-package com.prueba.arquitecturas_android
+package com.prueba.arquitecturas_android.view
 
 import android.content.Intent
 import android.util.Log
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.prueba.arquitecturas_android.model.Coupon
+import com.prueba.arquitecturas_android.R
 import com.squareup.picasso.Picasso.get
 
 

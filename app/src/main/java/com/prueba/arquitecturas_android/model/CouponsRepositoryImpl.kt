@@ -1,40 +1,26 @@
-package com.prueba.arquitecturas_android
+package com.prueba.arquitecturas_android.model
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.prueba.arquitecturas_android.databinding.ActivityMainBinding
-import com.prueba.arquitecturas_android.model.ApiAdapter
+import com.prueba.arquitecturas_android.R
+import com.prueba.arquitecturas_android.presenter.CouponPresenter
+import com.prueba.arquitecturas_android.view.RecyclerCouponsAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var rvCoupons: RecyclerView
-    //val rvCoupons: RecyclerView = findViewById(R.id.rvCoupons)
-    var coupons = ArrayList<Coupon>()
+class CouponsRepositoryImpl(var couponPresenter: CouponPresenter): CouponsRepository {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        UpdateView()
+
+
+    //toda la logica de codigo
+    override fun getCouponsAPI() {
         controller()
     }
 
-    fun UpdateView (){
-        rvCoupons=binding.rvCoupons
-
-        rvCoupons.layoutManager= LinearLayoutManager(this)
-        //rvCoupons.layoutManager = LinearLayoutManager(this)
-    }
-
     fun controller(){
+        var coupons = ArrayList<Coupon>()
         val apiAdapter = ApiAdapter()
         val apiService = apiAdapter.getClientService()
         val call = apiService.getCoupons()
@@ -56,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 println("\n\n\n\n\n")
                 Log.e("Arraycoupons",coupons.toString())
-                rvCoupons.adapter = RecyclerCouponsAdapter(coupons, R.layout.card_coupon)
+                couponPresenter.showCoupons(coupons)
             }
         })
     }

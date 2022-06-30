@@ -1,12 +1,9 @@
-package com.prueba.arquitecturas_android
+package com.prueba.arquitecturas_android.model
 
 import android.util.Log
 import com.google.gson.JsonObject
 import java.io.Serializable
 import java.lang.Exception
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Coupon (couponJson: JsonObject?) : Serializable {
 
